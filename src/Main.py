@@ -3,6 +3,25 @@ Created on 2017年9月3日
 
 @author: wang9
 '''
+import sys
+import os
+
+def init():
+    if not sys.version_info >= (3,):
+        print("This program can only be run with Python3.x !")
+        exit(1)
+    try:
+        import pyftpdlib
+    except ModuleNotFoundError  as e:
+        os.system("pip install pyftpdlib")
+    try:
+        import pymysql
+    except ModuleNotFoundError as e:
+        os.system("pip install pymysql")
+init()
+
+
+
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
@@ -17,7 +36,7 @@ def test():
     # 实例化虚拟用户，这是FTP验证首要条件
     authorizer = DummyAuthorizer()
     # 添加用户权限和路径，括号内的参数是(用户名， 密码， 用户目录， 权限)
-    authorizer.add_user('user', '12345', 'F:\TOOL', perm='elradfmw')
+    authorizer.add_user('user', '12345', "C:\\Users\\wang9\\test", perm='elradfmw')
 
 
     # 初始化ftp句柄
@@ -31,4 +50,5 @@ def test():
     server.serve_forever()
 
 if __name__ == '__main__':
+    init()
     test()
